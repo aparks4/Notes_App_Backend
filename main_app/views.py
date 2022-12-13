@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import JsonResponse
 
 from .models import User, Note, Profile
-from .serializers import UserSerializer, ProfileSerializer, RegisterSerializer, NoteSerializer
+from .serializers import UserSerializer, ProfileSerializer, RegisterSerializer, NoteSerializer, MyTokenObtainPairSerializer
 
 from rest_framework import generics, status, viewsets
 from rest_framework.decorators import api_view
@@ -13,6 +13,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from rest_framework.decorators import permission_classes
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 # Create your views here.
@@ -63,4 +64,7 @@ class NoteList(generics.ListCreateAPIView):
 class NoteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
         
