@@ -56,6 +56,10 @@ class NoteList(generics.ListCreateAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
 
+    def get_queryset(self):
+        user = self.request.user
+        return Note.objects.filter(user=user.id)
+
 class NoteDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
