@@ -50,7 +50,7 @@ class UserInfo(generics.RetrieveUpdateDestroyAPIView):
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
-    permission_class = ([])
+    permission_classes = ([])
     serializer_class = RegisterSerializer
 
 class NoteList(generics.ListCreateAPIView):
@@ -67,4 +67,19 @@ class NoteDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def testEndPoint(request):
+    if request.method == 'GET':
+        data = f'Congratulations {request.user}, your API just responded to GET request'
+        return Response({'response': data}, status=status.HTTP_200_OK)
+    elif request.method == 'POST':
+        text = request.POST.get('text')
+        data = f'Your API just responded to POST request with text: {text}'
+        return Response ({'response': data}, status=status.HTTP_200_OK)
+    return Response({}, status.HTTP_400_BAD_REQUEST)
+
+
         
